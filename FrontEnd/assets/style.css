@@ -146,7 +146,6 @@ header {
 section {
     margin: 50px 0;
 }
-
 h1 {
     display: flex;
     flex-direction: column;
@@ -177,7 +176,9 @@ nav li {
     padding: 0 10px;
     font-size: 1.2em;
 }
-
+a {
+    text-decoration: none;
+}
 li:hover {
     color: #b1663c;
 }
@@ -190,6 +191,28 @@ button {
     font-size: 16px;
     font-family: "Syne";
     min-width: 100px;
+}
+.barre-edition {
+    position: fixed;
+    right: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    height: 40px;
+    width: 100%;
+}
+.barre-edition i,
+.barre-edition p {
+    color: #ffffff;
+}
+.edition {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 10px;
 }
 .filtres {
     display: flex;
@@ -220,9 +243,17 @@ button {
 #introduction p {
     margin-bottom: 0.5em;
 }
+.titre-portfolio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
 #portfolio h2 {
-    text-align: center;
-    margin-bottom: 1em;
+    margin: 0 25px 0 0;
+}
+.btn-modifier a {
+    color: black;
 }
 .gallery {
     width: 100%;
@@ -231,7 +262,6 @@ button {
     grid-column-gap: 20px;
     grid-row-gap: 20px;
 }
-
 .gallery img {
     width: 100%;
 }
@@ -301,7 +331,7 @@ button {
     display: flex;
     justify-content: center;
 }
-input[type="text"] {
+#login-form input[type="text"] {
     width: 379px;
     height: 51px;
     border: none;
@@ -322,4 +352,167 @@ footer nav ul {
     display: flex;
     justify-content: flex-end;
     margin: 2em;
+}
+
+.modale {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.modale-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+    width: 630px;
+    max-height: 95%;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+.js-modale-close {
+    position: relative;
+    left: 300px;
+}
+
+.modale-wrapper h2 {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 40px 0;
+    font-family: "Work Sans";
+    color: #000000;
+    font-weight: 400;
+    font-size: 26px;
+}
+
+.js-modale-projets {
+    display: grid;
+    grid-template-columns: repeat(5, 20%);
+    row-gap: 25px;
+    padding-bottom: 60px;
+    border-bottom: #b3b3b3 solid 1px;
+}
+
+.js-btn-ajouter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 237px;
+    height: 36px;
+    border-radius: 60px;
+    margin-top: 40px;
+    color: #ffffff;
+    background-color: #1d6154;
+    font-weight: 700;
+    font-family: "syne";
+}
+
+.gallery-projet-modale {
+    margin: 0 5px;
+    width: 75px;
+    height: 100px;
+}
+.gallery-projet-modale img {
+    width: 75px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.fa-trash-can {
+    position: relative;
+    bottom: 98px;
+    left: 51px;
+    font-size: 14px;
+    color: white;
+    background-color: black;
+    padding: 4px;
+    border-radius: 20%;
+}
+.modale2 {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+}
+.modale2-entete {
+    display: flex;
+    width: 100%;
+    gap: 310px;
+}
+.fa-image {
+    color: #b9c5cc;
+    font-size: 90px;
+    margin: 20px;
+}
+.photo-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #e8f1f6;
+    padding-bottom: 20px;
+}
+.photo-form label {
+    font-family: "work sans";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 40px;
+    background-color: #cbd6dc;
+    color: #306685;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: -10px;
+    margin-bottom: 5px;
+}
+.photo-form input {
+    display: none;
+}
+.photo-form p {
+    font-size: 10px;
+}
+.titre-form {
+    display: flex;
+    flex-direction: column;
+}
+.categorie-form {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 40px;
+    border-bottom: #b3b3b3 solid 1px;
+}
+.categorie-form select,
+.titre-form input {
+    width: 420px;
+    height: 50px;
+    box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.1);
+    border: none;
+    margin-top: 10px;
+}
+.modale2-form {
+    display: flex;
+    flex-direction: column;
+}
+.modale2-form div {
+    margin-top: 25px;
+}
+#js-valider {
+    background-color: #a7a7a7;
+    width: 290px;
+    height: 35px;
+    border: none;
 }
