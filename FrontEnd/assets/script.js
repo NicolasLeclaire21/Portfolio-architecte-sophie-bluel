@@ -79,6 +79,7 @@ const gallery = (filteredData) => {
 };
 getProjets();
 
+
 // Ouverture de la modale
 let modale = null
 
@@ -141,9 +142,6 @@ window.addEventListener("keydown", function(e) {
 
 
 
-
-
-
 function resetmodaleSectionProjets() {  
 	modaleSectionProjets.innerHTML = "";
 }
@@ -183,23 +181,23 @@ function modaleProjets() {
 
 function listenerSupprimerProjet() {
         document.querySelectorAll(".supprimer-projet").forEach(btnSupprimer => {
-            btnSupprimer.addEventListener("click", supprimerProjet);
+            btnSupprimer.addEventListener("click", supprimerProjet, false);
 
     });
 }
 
+async function supprimerProjet() {
 
-function supprimerProjet(event) {
-    event.preventDefault()
-    console.log("token", token)
-    fetch(`http://localhost:5678/api/works/${this.classList[0]}`, {
-    method: "DELETE",
-    headers: { Authorization: `Bearer ${token}`},
+    console.log(this.classList[0])
+
+    await fetch(`http://localhost:5678/api/works/${this.classList[0]}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}`},
     })
-    .then (response => response.json())
-    .then (data => {
-        console.log("ezvferfer", data)
-        console.log("suppresion du projet" + this.classList[0])
+
+    .then (response => {
+        console.log(response)
+        console.log("DEBUG SUPPRESION DU PROJET " + this.classList[0])
         refreshPage(this.classList[0])
     })
     .catch (error => {
@@ -215,7 +213,6 @@ async function refreshPage(i){
     const projetAccueil = document.querySelector(`.js-projet-${i}`);
     projetAccueil.style.display = "none";
 }
-
 
 
 //changements sur la page lorsqu'on est connecté
@@ -254,9 +251,11 @@ const openModale2 = function (e) {
     modaleProjets();
 
     // Appel fermeture modale
-    modale.addEventListener("click", closeModale2)
-    modale.querySelector(".js-modale-close").addEventListener("click", closeModale2)
-    modale.querySelector(".js-modale-stop").addEventListener("click", stopPropagation)
+    modale2.addEventListener("click", closeModale2)
+    modale2.querySelector(".js-modale-close").addEventListener("click", closeModale2)
+    modale2.querySelector(".js-modale-stop").addEventListener("click", stopPropagation)
+
+    modale2.querySelector(".js-modale-return").addEventListener("click", backToModale)
 }
 
 // Element qui ouvre la modale
@@ -266,7 +265,6 @@ document.querySelectorAll(".js-modale").forEach(a => {
 
 // Fermeture de la modale
 const closeModale2 = function(e) {
-    e.preventDefault()
     if (modale === null) return
 
 
@@ -277,4 +275,65 @@ const closeModale2 = function(e) {
     modale2.querySelector(".js-modale-close").removeEventListener("click", closeModale)
     modale2.querySelector(".js-modale-stop").removeEventListener("click", stopPropagation)
     modale2 = null
+
+    closeModale(e)
 }
+
+const backToModale = function(e) {
+    e.preventDefault()
+    modale2.style.display = "none"
+};
+
+
+
+// gestion ajout de projets
+const btnValider = document.querySelector(".js-valider");
+btnValider.addEventListener("click", ajoutProjet);
+
+const inputTitre = document.querySelector(".js-titre")
+const inputCategorie = document.querySelector(".js-categorie")
+const inputImage = document.querySelector(".js-image")
+
+inputTitre.addEventListener("input", couleuBtn)
+inputCategorie.addEventListener("input", couleuBtn)
+inputImage.addEventListener("change", couleuBtn)
+
+function couleuBtn() {
+    if (inputTitre.value !== "" && inputCategorie.value !== "" && inputImage.files.length > 0) {
+        btnValider.style.backgroundColor = "#1D6154"
+    }
+}
+
+async function ajoutProjet(event) {
+    event.preventDefault();
+
+    const titre = inputTitre.value
+    const categorie = inputCategorie.value
+    const image = inputImage.files[0]
+
+    if (titre === "" || categorie === "" || image === undefined) {
+        alert("Merci de remplir tous les champs");
+        return;
+    } else if (categorie !== "1" && categorie !== "2" && categorie !== "3") {
+        alert("Merci de choisir une catégorie valide");
+        return;
+    } else {
+    const data = new FormData()
+    data.append("title", titre)
+    data.append("category", categorie)
+    data.append("image", image)
+
+    const reponse = await fetch(url, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        body: data,
+    });
+
+    if (reponse.status === 201) {
+        modaleProjets()
+        getProjets()
+        backToModale(event)
+    }
+}}
