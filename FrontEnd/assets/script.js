@@ -3,16 +3,12 @@ const container = document.querySelector(".gallery");
 const token = localStorage.getItem("token");
 
 const boutonTous = document.createElement("button");
-boutonTous.classList.add("btn-null", "btn")
 boutonTous.innerText = "Tous";
 const boutonObjets = document.createElement("button");
-boutonObjets.classList.add("btn-1", "btn")
 boutonObjets.innerText = "Objets";
 const boutonAppartements = document.createElement("button");
-boutonAppartements.classList.add("btn-2", "btn")
 boutonAppartements.innerText = "Appartements";
 const boutonHotelsRestaurants = document.createElement("button");
-boutonHotelsRestaurants.classList.add("btn-3", "btn")
 boutonHotelsRestaurants.innerText = "Hôltels & Restaurants";
 
 const divFiltres = document.querySelector(".filtres");
@@ -44,9 +40,9 @@ const getProjets = () => {
             return a.category.id == 1;
         });
         allBtn.forEach(btn => {
-            btn.classList.remove("prout")
+            btn.classList.remove("select")
         })
-        boutonObjets.classList.add("prout");
+        boutonObjets.classList.add("select");
         container.innerHTML = "";
         gallery(filtreObjets);
     });
@@ -55,9 +51,9 @@ const getProjets = () => {
             return a.category.id == 2;
         });
         allBtn.forEach(btn => {
-            btn.classList.remove("prout")
+            btn.classList.remove("select")
         })
-        boutonAppartements.classList.add("prout")
+        boutonAppartements.classList.add("select")
         container.innerHTML = "";
         gallery(filtreAppartements);
     });
@@ -66,17 +62,17 @@ const getProjets = () => {
             return a.category.id == 3;
         });
         allBtn.forEach(btn => {
-            btn.classList.remove("prout")
+            btn.classList.remove("select")
         })
-        boutonHotelsRestaurants.classList.add("prout")
+        boutonHotelsRestaurants.classList.add("select")
         container.innerHTML = "";
         gallery(filtreHotelsRestaurants);
     });
     boutonTous.addEventListener("click", function () {
         allBtn.forEach(btn => {
-            btn.classList.remove("prout")
+            btn.classList.remove("select")
         })
-        boutonTous.classList.add("prout")
+        boutonTous.classList.add("select")
         gallery(allProjets);
     });
 };
