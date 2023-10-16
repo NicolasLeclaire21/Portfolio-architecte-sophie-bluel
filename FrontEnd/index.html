@@ -68,15 +68,20 @@
                     enctype="multipart/form-data"
                 >
                     <div class="photo-form">
-                        <i class="fa-regular fa-image"></i>
-                        <label for="photo">+ Ajouter photo</label>
+                        <i class="effacer-si-image fa-regular fa-image"></i>
+                        <label class="effacer-si-image" for="photo"
+                            >+ Ajouter photo</label
+                        >
                         <input
                             type="file"
                             name="photo"
                             id="photo"
                             class="js-image"
                         />
-                        <p>jpg, png : 4mo max</p>
+
+                        <img id="miniature" src="" />
+
+                        <p class="effacer-si-image">jpg, png : 4mo max</p>
                     </div>
                     <div class="titre-form">
                         <label for="titre">Titre</label>

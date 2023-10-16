@@ -175,6 +175,7 @@ nav ul {
 nav li {
     padding: 0 10px;
     font-size: 1.2em;
+    color: #000000;
 }
 a {
     text-decoration: none;
@@ -219,6 +220,10 @@ button {
     justify-content: center;
     gap: 15px;
     margin: 40px 0 40px 0;
+}
+.prout {
+    background-color: #1d6154;
+    color: #ffffff;
 }
 #introduction {
     display: flex;
@@ -463,7 +468,6 @@ footer nav ul {
     justify-content: center;
     align-items: center;
     background-color: #e8f1f6;
-    padding-bottom: 20px;
 }
 .photo-form label {
     font-family: "work sans";
@@ -484,6 +488,7 @@ footer nav ul {
 }
 .photo-form p {
     font-size: 10px;
+    margin-bottom: 20px;
 }
 .titre-form {
     display: flex;
@@ -515,4 +520,7 @@ footer nav ul {
     width: 290px;
     height: 35px;
     border: none;
+}
+#miniature {
+    width: 130px;
 }

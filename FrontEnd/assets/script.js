@@ -3,12 +3,16 @@ const container = document.querySelector(".gallery");
 const token = localStorage.getItem("token");
 
 const boutonTous = document.createElement("button");
+boutonTous.classList.add("btn-null", "btn")
 boutonTous.innerText = "Tous";
 const boutonObjets = document.createElement("button");
+boutonObjets.classList.add("btn-1", "btn")
 boutonObjets.innerText = "Objets";
 const boutonAppartements = document.createElement("button");
+boutonAppartements.classList.add("btn-2", "btn")
 boutonAppartements.innerText = "Appartements";
 const boutonHotelsRestaurants = document.createElement("button");
+boutonHotelsRestaurants.classList.add("btn-3", "btn")
 boutonHotelsRestaurants.innerText = "Hôltels & Restaurants";
 
 const divFiltres = document.querySelector(".filtres");
@@ -18,7 +22,7 @@ divFiltres.appendChild(boutonObjets);
 divFiltres.appendChild(boutonAppartements);
 divFiltres.appendChild(boutonHotelsRestaurants);
 
-
+const allBtn = divFiltres.querySelectorAll("*");
 
 
 let allProjets = [];
@@ -26,61 +30,77 @@ let allProjets = [];
 
 const getProjets = () => {
     fetch(url)
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {
-        allProjets = data;
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            allProjets = data;
+            gallery(allProjets);
+        })
+        .catch(error => console.log(error))
+
+    boutonObjets.addEventListener("click", function () {
+        const filtreObjets = allProjets.filter(function (a) {
+            return a.category.id == 1;
+        });
+        allBtn.forEach(btn => {
+            btn.classList.remove("prout")
+        })
+        boutonObjets.classList.add("prout");
+        container.innerHTML = "";
+        gallery(filtreObjets);
+    });
+    boutonAppartements.addEventListener("click", function () {
+        const filtreAppartements = allProjets.filter(function (a) {
+            return a.category.id == 2;
+        });
+        allBtn.forEach(btn => {
+            btn.classList.remove("prout")
+        })
+        boutonAppartements.classList.add("prout")
+        container.innerHTML = "";
+        gallery(filtreAppartements);
+    });
+    boutonHotelsRestaurants.addEventListener("click", function () {
+        const filtreHotelsRestaurants = allProjets.filter(function (a) {
+            return a.category.id == 3;
+        });
+        allBtn.forEach(btn => {
+            btn.classList.remove("prout")
+        })
+        boutonHotelsRestaurants.classList.add("prout")
+        container.innerHTML = "";
+        gallery(filtreHotelsRestaurants);
+    });
+    boutonTous.addEventListener("click", function () {
+        allBtn.forEach(btn => {
+            btn.classList.remove("prout")
+        })
+        boutonTous.classList.add("prout")
         gallery(allProjets);
     });
-
-        
-        boutonObjets.addEventListener("click", function () {
-            const filtreObjets = allProjets.filter(function (a) {
-                return a.category.id == 1;
-            });
-            container.innerHTML = "";
-            gallery(filtreObjets);
-        });
-        boutonAppartements.addEventListener("click", function () {
-            const filtreAppartements = allProjets.filter(function (a) {
-                return a.category.id == 2;
-            });
-            container.innerHTML = "";
-            gallery(filtreAppartements);
-        });
-        boutonHotelsRestaurants.addEventListener("click", function () {
-            const filtreHotelsRestaurants = allProjets.filter(function (a) {
-                return a.category.id == 3;
-            });
-            container.innerHTML = "";
-            gallery(filtreHotelsRestaurants);
-        });
-        boutonTous.addEventListener("click", function () {
-            gallery(allProjets);
-        });
-    };
+};
 
 
 const gallery = (filteredData) => {
     container.innerHTML = "";
-        for(const projet of filteredData) {
-            const element = document.createElement("figure");
-            element.classList.add(`js-projet-${projet.id}`);
-            const image = document.createElement("img");
-            const caption = document.createElement("figcaption");
-            image.src = projet.imageUrl;
-            image.alt = projet.title;
-            caption.innerText = projet.title;
-            element.appendChild(image);
-            element.appendChild(caption);  
-            container.appendChild(element);
-        }
+    for (const projet of filteredData) {
+        const element = document.createElement("figure");
+        element.classList.add(`js-projet-${projet.id}`);
+        const image = document.createElement("img");
+        const caption = document.createElement("figcaption");
+        image.src = projet.imageUrl;
+        image.alt = projet.title;
+        caption.innerText = projet.title;
+        element.appendChild(image);
+        element.appendChild(caption);
+        container.appendChild(element);
+    }
 };
 getProjets();
 
 
-// Ouverture de la modale
+///////////////////////////// Ouverture de la modale /////////////////////////////
 let modale = null
 
 const openModale = function (e) {
@@ -91,10 +111,10 @@ const openModale = function (e) {
 
     modaleProjets();
 
-    document.querySelectorAll(".js-btn-ajouter").forEach (b => {
+    document.querySelectorAll(".js-btn-ajouter").forEach(b => {
         b.addEventListener("click", openModale2)
     })
-    
+
     // Appel fermeture modale
     modale.addEventListener("click", closeModale)
     modale.querySelector(".js-modale-close").addEventListener("click", closeModale)
@@ -108,7 +128,7 @@ document.querySelectorAll(".js-modale").forEach(a => {
 
 
 // Fermeture de la modale
-const closeModale = function(e) {
+const closeModale = function (e) {
     e.preventDefault()
     if (modale === null) return
 
@@ -123,65 +143,60 @@ const closeModale = function(e) {
 }
 
 // Définit la "border" du click pour fermer la modale
-const stopPropagation = function(e) {
+const stopPropagation = function (e) {
     e.stopPropagation()
 };
 
 // Ferme la modale avec la touche echap
-window.addEventListener("keydown", function(e) {
+window.addEventListener("keydown", function (e) {
     if (e.key === "Escape" || e.key === "Esc") {
         closeModale(e)
-        closeModaleProjet(e)}
+        closeModaleProjet(e)
+    }
 });
 
 
 
-
-
-
-
-
-
-function resetmodaleSectionProjets() {  
-	modaleSectionProjets.innerHTML = "";
+function resetmodaleSectionProjets() {
+    modaleSectionProjets.innerHTML = "";
 }
 
 const modaleSectionProjets = document.querySelector(".js-modale-projets");
 
 function modaleProjets() {
     fetch(url)
-  .then(function(response) {
-    return response.json();
-  })
-  .then(function(data) {
-    resetmodaleSectionProjets()
-    for (let i = 0; i < data.length; i++) {
-        
-        const div = document.createElement("div");
-        div.classList.add("gallery-projet-modale");
-        modaleSectionProjets.appendChild(div);
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            resetmodaleSectionProjets()
+            for (let i = 0; i < data.length; i++) {
 
-        const img = document.createElement("img");
-        img.src = data[i].imageUrl;
-        img.alt = data[i].title;
-        div.appendChild(img);
+                const div = document.createElement("div");
+                div.classList.add("gallery-projet-modale");
+                modaleSectionProjets.appendChild(div);
 
-        const icon = document.createElement("i");
-        icon.classList.add(data[i].id, "fa-solid", "fa-trash-can", "supprimer-projet"); 
-        div.appendChild(icon);
-    }
-    listenerSupprimerProjet()
-  })
-  .catch(function(error) {
-    console.log(error)
-  });
+                const img = document.createElement("img");
+                img.src = data[i].imageUrl;
+                img.alt = data[i].title;
+                div.appendChild(img);
+
+                const icon = document.createElement("i");
+                icon.classList.add(data[i].id, "fa-solid", "fa-trash-can", "supprimer-projet");
+                div.appendChild(icon);
+            }
+            listenerSupprimerProjet()
+        })
+        .catch(function (error) {
+            console.log(error)
+        });
 }
 
 
-
+///////////////////////////// Gestion de la suppression des projets /////////////////////////////
 function listenerSupprimerProjet() {
-        document.querySelectorAll(".supprimer-projet").forEach(btnSupprimer => {
-            btnSupprimer.addEventListener("click", supprimerProjet, false);
+    document.querySelectorAll(".supprimer-projet").forEach(btnSupprimer => {
+        btnSupprimer.addEventListener("click", supprimerProjet, false);
 
     });
 }
@@ -192,21 +207,21 @@ async function supprimerProjet() {
 
     await fetch(`http://localhost:5678/api/works/${this.classList[0]}`, {
         method: "DELETE",
-        headers: { Authorization: `Bearer ${token}`},
+        headers: { Authorization: `Bearer ${token}` },
     })
 
-    .then (response => {
-        console.log(response)
-        console.log("DEBUG SUPPRESION DU PROJET " + this.classList[0])
-        refreshPage(this.classList[0])
-    })
-    .catch (error => {
-        console.log(error)
-    })
+        .then(response => {
+            console.log(response)
+            console.log("DEBUG SUPPRESION DU PROJET " + this.classList[0])
+            refreshPage(this.classList[0])
+        })
+        .catch(error => {
+            console.log(error)
+        })
 }
 
 // Rafraichit les projets sans recharger la page
-async function refreshPage(i){
+async function refreshPage(i) {
     modaleProjets(); // Re lance une génération des projets dans la modale admin
 
     // supprime le projet de la page d'accueil
@@ -215,7 +230,7 @@ async function refreshPage(i){
 }
 
 
-//changements sur la page lorsqu'on est connecté
+///////////////////////////// changements sur la page lorsqu'on est connecté /////////////////////////////
 
 
 const boutonLogin = document.querySelector(".btn-login");
@@ -238,7 +253,7 @@ function pageAdmin() {
 
 
 
-// Ouverture de la modale 2
+///////////////////////////// Ouverture de la modale 2 /////////////////////////////
 let modale2 = null
 
 const openModale2 = function (e) {
@@ -264,7 +279,7 @@ document.querySelectorAll(".js-modale").forEach(a => {
 })
 
 // Fermeture de la modale
-const closeModale2 = function(e) {
+const closeModale2 = function (e) {
     if (modale === null) return
 
 
@@ -279,14 +294,39 @@ const closeModale2 = function(e) {
     closeModale(e)
 }
 
-const backToModale = function(e) {
+const backToModale = function (e) {
     e.preventDefault()
     modale2.style.display = "none"
 };
 
 
 
-// gestion ajout de projets
+// Fonction pour afficher la miniature
+function showThumbnail() {
+    const fileInput = document.getElementById("photo");
+    const miniature = document.getElementById("miniature");
+    const effacerElements = document.querySelectorAll(".effacer-si-image");
+
+    if (fileInput.files && fileInput.files[0]) {
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            miniature.src = e.target.result;
+            effacerElements.forEach(function (e) {
+                e.style.display = "none";
+            });
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+// Écoute les changements dans le champ input file
+const fileInput = document.getElementById("photo");
+fileInput.addEventListener("change", showThumbnail);
+
+
+/////////////////////////// gestion ajout de projets /////////////////////////////////
 const btnValider = document.querySelector(".js-valider");
 btnValider.addEventListener("click", ajoutProjet);
 
@@ -318,22 +358,24 @@ async function ajoutProjet(event) {
         alert("Merci de choisir une catégorie valide");
         return;
     } else {
-    const data = new FormData()
-    data.append("title", titre)
-    data.append("category", categorie)
-    data.append("image", image)
+        const data = new FormData()
+        data.append("title", titre)
+        data.append("category", categorie)
+        data.append("image", image)
 
-    const reponse = await fetch(url, {
-        method: "POST",
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-        body: data,
-    });
+        const reponse = await fetch(url, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            body: data,
+        });
 
-    if (reponse.status === 201) {
-        modaleProjets()
-        getProjets()
-        backToModale(event)
+        if (reponse.status === 201) {
+            modaleProjets()
+            getProjets()
+            backToModale(event)
+        }
     }
-}}
+}
+
